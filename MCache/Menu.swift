@@ -80,7 +80,7 @@ class Menu : UITableViewController {
                     }
                 }
             } else {
-                print("Error \(my_data)")
+                print("Error \(my_data!)")
             }
         }
     }

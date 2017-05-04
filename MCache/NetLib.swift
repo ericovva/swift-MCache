@@ -23,7 +23,7 @@ class NetLib {
             // Check for error
             if error != nil
             {
-                print("error=\(error)")
+                print("error=\(error!)")
                 return
             }
             do {

@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -21,13 +22,18 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <webView contentMode="scaleToFill" fixedFrame="YES" restorationIdentifier="webView" translatesAutoresizingMaskIntoConstraints="NO" id="M1C-ZZ-uth">
+                            <webView contentMode="scaleToFill" restorationIdentifier="webView" translatesAutoresizingMaskIntoConstraints="NO" id="M1C-ZZ-uth">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </webView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="M1C-ZZ-uth" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="LW3-8Q-VMj"/>
+                            <constraint firstAttribute="trailing" secondItem="M1C-ZZ-uth" secondAttribute="trailing" id="dYm-4d-Zss"/>
+                            <constraint firstItem="M1C-ZZ-uth" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="tBE-Bd-cEt"/>
+                            <constraint firstItem="M1C-ZZ-uth" firstAttribute="bottom" secondItem="wfy-db-euE" secondAttribute="top" id="x17-qI-THD"/>
+                        </constraints>
                     </view>
                     <connections>
                         <outlet property="webV" destination="M1C-ZZ-uth" id="fRy-rZ-gmS"/>
@@ -38,7 +44,7 @@
             </objects>
             <point key="canvasLocation" x="336.80000000000001" y="147.97601199400302"/>
         </scene>
-        <!--Root View Controller-->
+        <!--Songs-->
         <scene sceneID="xxH-nS-HiX">
             <objects>
                 <tableViewController id="yg2-WK-2CF" customClass="Menu" customModule="MCache" customModuleProvider="target" sceneMemberID="viewController">
@@ -51,26 +57,26 @@
                                 <rect key="frame" x="0.0" y="28" width="375" height="115"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="TaU-IB-5f2" id="Rwv-qs-p8S">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="114"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="115"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" fixedFrame="YES" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="leP-Mi-5Hn">
+                                        <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="leP-Mi-5Hn">
                                             <rect key="frame" x="22" y="104" width="331" height="2"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <color key="progressTintColor" red="0.0" green="1" blue="0.1977273605" alpha="1" colorSpace="calibratedRGB"/>
                                             <color key="trackTintColor" red="0.70079703280000005" green="0.17980073050000001" blue="0.20044034459999999" alpha="1" colorSpace="calibratedRGB"/>
                                         </progressView>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Track name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8Gq-1D-v1B">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Track name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8Gq-1D-v1B">
                                             <rect key="frame" x="22" y="8" width="331" height="34"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Yt-Tp-cll">
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Yt-Tp-cll">
                                             <rect key="frame" x="22" y="55" width="120" height="30"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <color key="backgroundColor" red="0.0" green="0.71196338380000002" blue="0.14077464070000001" alpha="1" colorSpace="calibratedRGB"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="30" id="Woq-gh-37F"/>
+                                            </constraints>
                                             <state key="normal" title="Play">
                                                 <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
@@ -78,10 +84,12 @@
                                                 <action selector="play:" destination="TaU-IB-5f2" eventType="touchUpInside" id="Du7-gx-fzc"/>
                                             </connections>
                                         </button>
-                                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TTG-nf-oNu">
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TTG-nf-oNu">
                                             <rect key="frame" x="234" y="55" width="112" height="30"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <color key="backgroundColor" red="1" green="0.70196078429999997" blue="0.058823529409999999" alpha="1" colorSpace="calibratedRGB"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="112" id="wAX-Xw-XaL"/>
+                                            </constraints>
                                             <state key="normal" title="Download">
                                                 <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                             </state>
@@ -90,6 +98,20 @@
                                             </connections>
                                         </button>
                                     </subviews>
+                                    <constraints>
+                                        <constraint firstItem="8Gq-1D-v1B" firstAttribute="leading" secondItem="0Yt-Tp-cll" secondAttribute="leading" id="7Dy-oN-fQe"/>
+                                        <constraint firstItem="8Gq-1D-v1B" firstAttribute="trailing" secondItem="leP-Mi-5Hn" secondAttribute="trailing" id="8LZ-F8-gPl"/>
+                                        <constraint firstAttribute="bottomMargin" secondItem="leP-Mi-5Hn" secondAttribute="bottom" constant="0.5" id="8iT-LY-Dw8"/>
+                                        <constraint firstItem="8Gq-1D-v1B" firstAttribute="top" secondItem="Rwv-qs-p8S" secondAttribute="topMargin" id="KlL-y4-j8F"/>
+                                        <constraint firstItem="0Yt-Tp-cll" firstAttribute="top" secondItem="8Gq-1D-v1B" secondAttribute="bottom" constant="13" id="RAE-XW-EoS"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="TTG-nf-oNu" secondAttribute="trailing" constant="21" id="Rpx-HG-xSA"/>
+                                        <constraint firstItem="8Gq-1D-v1B" firstAttribute="centerX" secondItem="Rwv-qs-p8S" secondAttribute="centerX" id="UKw-OS-oQX"/>
+                                        <constraint firstItem="leP-Mi-5Hn" firstAttribute="top" secondItem="0Yt-Tp-cll" secondAttribute="bottom" constant="19" id="bAZ-Bw-bFU"/>
+                                        <constraint firstItem="0Yt-Tp-cll" firstAttribute="baseline" secondItem="TTG-nf-oNu" secondAttribute="baseline" id="eTk-Fe-jzq"/>
+                                        <constraint firstItem="8Gq-1D-v1B" firstAttribute="leading" secondItem="Rwv-qs-p8S" secondAttribute="leadingMargin" constant="14" id="o8N-ek-KSy"/>
+                                        <constraint firstItem="0Yt-Tp-cll" firstAttribute="leading" secondItem="leP-Mi-5Hn" secondAttribute="leading" id="wJi-mu-ASU"/>
+                                        <constraint firstItem="TTG-nf-oNu" firstAttribute="leading" secondItem="0Yt-Tp-cll" secondAttribute="trailing" constant="92" id="y28-nu-dGM"/>
+                                    </constraints>
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="downloadButton" destination="TTG-nf-oNu" id="xNK-O3-MSR"/>
@@ -103,7 +125,7 @@
                             <outlet property="delegate" destination="yg2-WK-2CF" id="b2k-ku-aWD"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Root View Controller" id="JBn-Ru-1RB"/>
+                    <navigationItem key="navigationItem" title="Songs" id="JBn-Ru-1RB"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="saf-kt-vda" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

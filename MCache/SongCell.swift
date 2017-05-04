@@ -25,7 +25,7 @@ class SongCell: UITableViewCell {
     
     @IBAction func play(_ sender: Any) {
         let name = self.trackName.text!
-        print(name,path)
+        print("Play \(name) \(path)")
         if (path.isEmpty) {
             print("Path not found for track \(name). Downloading file...")
             self.download_file(to_play: true)
@@ -36,10 +36,11 @@ class SongCell: UITableViewCell {
     }
 
     func playSound(path: String) {
-        let url = NSURL(string: path)
-        print("Play from : \(url)")
+        let nsurl = NSURL(string: path)
+        if let url = nsurl {
+            print("Play from : \(url)")
             do {
-                player = try AVAudioPlayer(contentsOf: url as! URL)
+                player = try AVAudioPlayer(contentsOf: url as URL)
                 guard let player = player else { return }
                 player.prepareToPlay()
                 player.volume = 1.0
@@ -47,6 +48,9 @@ class SongCell: UITableViewCell {
             } catch let error {
                 print(error.localizedDescription)
             }
+        } else {
+            print ("Incorrect nsurl")
+        }
 
     }
     
@@ -81,8 +85,17 @@ class SongCell: UITableViewCell {
                 if let href = my_data?["href"] {
                     let destination: DownloadRequest.DownloadFileDestination = { _, _ in
                         let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-                        let fileURL = documentsURL.appendingPathComponent(escapedString)
-                        print(fileURL)
+                        var escaped_name = escapedString
+                        do {
+                            let regex = try NSRegularExpression(pattern: "%")
+                            let newString = regex.stringByReplacingMatches(in: escaped_name, options: [], range: NSMakeRange(0, escaped_name.characters.count), withTemplate: "")
+                            escaped_name = newString
+                            print(newString)
+
+                        } catch {
+                            print("ERROR IN REGEX")
+                        }
+                        let fileURL = documentsURL.appendingPathComponent(escaped_name)
                         return (fileURL, [.removePreviousFile, .createIntermediateDirectories])
                     }
                     
