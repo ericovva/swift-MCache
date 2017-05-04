@@ -11,36 +11,35 @@ import UIKit
 class ViewController: UIViewController, UIWebViewDelegate {
 
     @IBOutlet weak var webV: UIWebView!
-    
     func _get_access_token(time : Int) {
         webV.delegate = self;
         
         let url = "https://oauth.yandex.ru/authorize?response_type=token&client_id=ee932422303d4a89b5588f2e7301a83b";
         webV.loadRequest(URLRequest(url: URL(string: url)!))
     }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(true)
         let defaults = UserDefaults.standard
-        let time = Int(Date().timeIntervalSince1970)
-        var get_token = true;
-        
+        let time = Int(Date().timeIntervalSince1970);
+        var authorized = false
         if let token = defaults.string(forKey: "access_token") {
-            print( "1111")
             if let login_time = defaults.object(forKey: "login_time") {
-                print( "2222")
                 if let expires_in = defaults.object(forKey: "expires_in") {
-                    print( "3333")
                     if (time < (login_time as! Int) + (expires_in as! Int)) {
-                        print ("All right")
-                        print (token)
-                        get_token = false
+                        authorized = true
+                        print(token)
+                        performSegue(withIdentifier: "menu", sender: nil)
                     }
                 }
             }
         }
-        if (get_token) { self._get_access_token(time: time); }
+        if (authorized == false){
+            self._get_access_token(time: time);
+        }
+
+    }
+    override func viewDidLoad() {
+        super.viewDidLoad()
     }
     
     override func didReceiveMemoryWarning() {
@@ -68,6 +67,7 @@ class ViewController: UIViewController, UIWebViewDelegate {
             defaults.setValue(dict["access_token"], forKey: "access_token")
             defaults.synchronize()
             print ("Save token")
+            performSegue(withIdentifier: "menu", sender: nil)
         } else if (dict["error"] != nil) {
             print ("AUTH ERROR")
             print (dict["error"]!)
