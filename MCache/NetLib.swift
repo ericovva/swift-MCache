@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import AVFoundation
 
 class NetLib {
     class func get(root_path : String, completionHandler: @escaping (Dictionary<String, AnyObject>?, NSError?) -> Void) -> URLSessionTask{
@@ -41,6 +42,20 @@ class NetLib {
         return task
     }
     
+    class func get_last_after_slash(s: String) -> String {
+        var r = "";
+        for c in s.characters.reversed() {
+            if (c == "/")  {
+                break
+            }
+            else {
+                r = "\(c)\(r)"
+            }
+        }
+        return r
+    }
+    static var player: AVAudioPlayer?
+    /* without alamofire
     class func downlaod_file(url: URL, to localUrl: URL, completion: @escaping () -> ()) {
         let sessionConfig = URLSessionConfiguration.default
         let session = URLSession(configuration: sessionConfig)
@@ -64,5 +79,30 @@ class NetLib {
             }
         }
         task.resume()
+    }
+    */
+    class func playSound(path: String) {
+        if self.player != nil {
+            self.player?.stop()
+        }
+        let nsurl = NSURL(string: path)
+        if let url = nsurl {
+            print("Play from : \(url)")
+            //let mpic = MPNowPlayingInfoCenter.default()
+            //mpic.nowPlayingInfo = [MPMediaItemPropertyTitle: path, MPMediaItemPropertyArtist:"path"]
+            do {
+                NetLib.player = try AVAudioPlayer(contentsOf: url as URL)
+                guard let player = self.player else { return }
+                player.prepareToPlay()
+                player.volume = 1.0
+                
+                player.play()
+            } catch let error {
+                print(error.localizedDescription)
+            }
+        } else {
+            print ("Incorrect nsurl")
+        }
+        
     }
 }

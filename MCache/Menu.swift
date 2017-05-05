@@ -9,22 +9,12 @@
 import UIKit
 import Alamofire
 import CoreData
+import AVFoundation
 
 class Menu : UITableViewController {
     var content : [String] = []
     var cached  : [String: String] = [:]
-    func get_last_after_slash(s: String) -> String {
-        var r = "";
-        for c in s.characters.reversed() {
-            if (c == "/")  {
-                break
-            }
-            else {
-                r = "\(c)\(r)"
-            }
-        }
-        return r
-    }
+
     func check_files_in_cache() -> [NSManagedObject]{
         //1
         guard let appDelegate =
@@ -50,7 +40,19 @@ class Menu : UITableViewController {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        do {
+            try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback, with: .mixWithOthers)
+            print("AVAudioSession Category Playback OK")
+            do {
+                try AVAudioSession.sharedInstance().setActive(true)
+                print("AVAudioSession is Active")
+                
+            } catch {
+                print(error)
+            }
+        } catch {
+            print(error)
+        }
         _ = NetLib.get(root_path: "https://cloud-api.yandex.net/v1/disk/resources?path=/music") {
             (my_data, error) -> Void in
             if (error == nil) {
@@ -63,15 +65,18 @@ class Menu : UITableViewController {
                             //From yandex
                             for file in files as! Array<Dictionary<String,Any>> {
                                 let path = file["path"] as! String;
-                                self.content.append(self.get_last_after_slash(s: path))
-                                self.cached[self.get_last_after_slash(s: path)] = ""
+                                let last_after_slash = NetLib.get_last_after_slash(s: path)
+                                self.content.append(last_after_slash)
+                                self.cached[last_after_slash] = ""
                             }
                             //From core data
                             let songs = self.check_files_in_cache();
                             for result in songs as [NSManagedObject] {
                                 let name = result.value(forKey: "name") as! String
                                 let path = result.value(forKey: "path") as! String
-                                self.cached[name] = path
+                                let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+                                let fileURL = documentsURL.appendingPathComponent(path)
+                                self.cached[name] = fileURL.absoluteString
                             }
                             DispatchQueue.main.async {
                                 self.tableView.reloadData()
@@ -98,6 +103,7 @@ class Menu : UITableViewController {
             cell.downloadButton.isHidden = true
         }
         cell.loadingLine.isHidden = true
+        print(path)
         return cell
     }
     //override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

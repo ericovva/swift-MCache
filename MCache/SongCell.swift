@@ -10,10 +10,10 @@ import UIKit
 import Alamofire
 import AVFoundation
 import CoreData
+//import MediaPlayer
 
 class SongCell: UITableViewCell {
     var path = ""
-    var player: AVAudioPlayer?
     
     @IBOutlet weak var downloadButton: UIButton!
     @IBOutlet weak var trackName: UILabel!
@@ -30,28 +30,9 @@ class SongCell: UITableViewCell {
             print("Path not found for track \(name). Downloading file...")
             self.download_file(to_play: true)
         } else {
-            playSound(path: path)
+            NetLib.playSound(path: path)
         }
         
-    }
-
-    func playSound(path: String) {
-        let nsurl = NSURL(string: path)
-        if let url = nsurl {
-            print("Play from : \(url)")
-            do {
-                player = try AVAudioPlayer(contentsOf: url as URL)
-                guard let player = player else { return }
-                player.prepareToPlay()
-                player.volume = 1.0
-                player.play()
-            } catch let error {
-                print(error.localizedDescription)
-            }
-        } else {
-            print ("Incorrect nsurl")
-        }
-
     }
     
     func save_to_core_data(name: String, path: String) -> Bool{
@@ -90,8 +71,6 @@ class SongCell: UITableViewCell {
                             let regex = try NSRegularExpression(pattern: "%")
                             let newString = regex.stringByReplacingMatches(in: escaped_name, options: [], range: NSMakeRange(0, escaped_name.characters.count), withTemplate: "")
                             escaped_name = newString
-                            print(newString)
-
                         } catch {
                             print("ERROR IN REGEX")
                         }
@@ -102,25 +81,24 @@ class SongCell: UITableViewCell {
                     Alamofire.download(href as! String, to: destination).response { response in
                         //print(response)
                         if let ur = response.destinationURL?.path {
-                            print(ur)
+                            let last_path_component = NetLib.get_last_after_slash(s: ur)
                             let saved = self.save_to_core_data(
                                 name: name,
-                                path: "file://\(ur)"
+                                path: last_path_component
                             );
                             if (saved) {
-                                self.path = "file://\(ur)"
+                                self.path = ur
                                 self.downloadButton.isHidden = true
                                 if (to_play) {
                                     print("Playing sound \(name)")
-                                    self.playSound(path: self.path)
+                                    NetLib.playSound(path: self.path)
                                 }
                             }
                         }
                         self.loadingLine.isHidden = true
-                        
-                        }
-                        .downloadProgress { progress in
-                            self.loadingLine.setProgress(Float(progress.fractionCompleted), animated: true)
+                    }
+                    .downloadProgress { progress in
+                        self.loadingLine.setProgress(Float(progress.fractionCompleted), animated: true)
                     }
                 } else {
                     print("Error no href")
