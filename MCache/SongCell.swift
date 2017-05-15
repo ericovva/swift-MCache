@@ -14,23 +14,25 @@ import CoreData
 
 class SongCell: UITableViewCell {
     var path = ""
-    
+    var number : Int?
     @IBOutlet weak var downloadButton: UIButton!
     @IBOutlet weak var trackName: UILabel!
     @IBOutlet weak var loadingLine: UIProgressView!
+    @IBOutlet weak var playPauseButtonOutlet: UIButton!
     
     @IBAction func download(_ sender: Any) {
         download_file(to_play: false);
     }
     
     @IBAction func play(_ sender: Any) {
+        
         let name = self.trackName.text!
         print("Play \(name) \(path)")
         if (path.isEmpty) {
             print("Path not found for track \(name). Downloading file...")
             self.download_file(to_play: true)
         } else {
-            NetLib.playSound(path: path)
+            NetLib.playSound(number: number!,name : name,path: path, cell: self)
         }
         
     }
@@ -88,10 +90,11 @@ class SongCell: UITableViewCell {
                             );
                             if (saved) {
                                 self.path = ur
+                                NetLib.cached[name] = self.path
                                 self.downloadButton.isHidden = true
                                 if (to_play) {
                                     print("Playing sound \(name)")
-                                    NetLib.playSound(path: self.path)
+                                    NetLib.playSound(number: self.number!, name: name,path: self.path, cell: self)
                                 }
                             }
                         }
