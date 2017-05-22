@@ -19,6 +19,9 @@
 		03B13E4C1E79F31C00D64F27 /* MCache.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 03B13E4A1E79F31C00D64F27 /* MCache.xcdatamodeld */; };
 		03B13E511E79F31C00D64F27 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 03B13E4F1E79F31C00D64F27 /* LaunchScreen.storyboard */; };
 		03C21B5F1ECA61BC00A194B6 /* Playlist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03C21B5E1ECA61BC00A194B6 /* Playlist.swift */; };
+		03FF9D7E1ECBC39B003791B5 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03FF9D7D1ECBC39B003791B5 /* Player.swift */; };
+		03FF9D801ECBC71E003791B5 /* Global.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03FF9D7F1ECBC71E003791B5 /* Global.swift */; };
+		03FF9D821ECD2193003791B5 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 03FF9D811ECD2193003791B5 /* MediaPlayer.framework */; };
 		788082C94F038E1F146C3635 /* Pods_MCache.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3BC1C1713AE013CCABCC1B5 /* Pods_MCache.framework */; };
 /* End PBXBuildFile section */
 
@@ -37,6 +40,9 @@
 		03B13E501E79F31C00D64F27 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		03B13E521E79F31C00D64F27 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		03C21B5E1ECA61BC00A194B6 /* Playlist.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Playlist.swift; sourceTree = "<group>"; };
+		03FF9D7D1ECBC39B003791B5 /* Player.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
+		03FF9D7F1ECBC71E003791B5 /* Global.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Global.swift; sourceTree = "<group>"; };
+		03FF9D811ECD2193003791B5 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		08B20C9AE0BC0532FFEB3CE8 /* Pods-MCache.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MCache.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MCache/Pods-MCache.debug.xcconfig"; sourceTree = "<group>"; };
 		8FB52571495037982F63B76C /* Pods-MCache.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MCache.release.xcconfig"; path = "Pods/Target Support Files/Pods-MCache/Pods-MCache.release.xcconfig"; sourceTree = "<group>"; };
 		C3BC1C1713AE013CCABCC1B5 /* Pods_MCache.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MCache.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -47,6 +53,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				03FF9D821ECD2193003791B5 /* MediaPlayer.framework in Frameworks */,
 				0378F4551EC8F3B10084E93E /* AVFoundation.framework in Frameworks */,
 				0378F4561EC8F3B10084E93E /* AVKit.framework in Frameworks */,
 				788082C94F038E1F146C3635 /* Pods_MCache.framework in Frameworks */,
@@ -81,12 +88,14 @@
 				03B13E451E79F31C00D64F27 /* ViewController.swift */,
 				03B13E471E79F31C00D64F27 /* Main.storyboard */,
 				032035D91E9037FE00FD4BC8 /* Menu.swift */,
+				030977391EB92727000CF2FC /* SongCell.swift */,
+				03FF9D7F1ECBC71E003791B5 /* Global.swift */,
 				032035DB1E9053CC00FD4BC8 /* NetLib.swift */,
 				03C21B5E1ECA61BC00A194B6 /* Playlist.swift */,
+				03FF9D7D1ECBC39B003791B5 /* Player.swift */,
 				03B13E4F1E79F31C00D64F27 /* LaunchScreen.storyboard */,
 				03B13E521E79F31C00D64F27 /* Info.plist */,
 				03B13E4A1E79F31C00D64F27 /* MCache.xcdatamodeld */,
-				030977391EB92727000CF2FC /* SongCell.swift */,
 				03336AA91EC8B919005E89D1 /* Media.xcassets */,
 			);
 			path = MCache;
@@ -95,6 +104,7 @@
 		4367A5187E55EBA628A48E77 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				03FF9D811ECD2193003791B5 /* MediaPlayer.framework */,
 				0378F4531EC8F3B10084E93E /* AVFoundation.framework */,
 				0378F4541EC8F3B10084E93E /* AVKit.framework */,
 				C3BC1C1713AE013CCABCC1B5 /* Pods_MCache.framework */,
@@ -244,9 +254,11 @@
 				03B13E461E79F31C00D64F27 /* ViewController.swift in Sources */,
 				032035DA1E9037FE00FD4BC8 /* Menu.swift in Sources */,
 				03C21B5F1ECA61BC00A194B6 /* Playlist.swift in Sources */,
+				03FF9D7E1ECBC39B003791B5 /* Player.swift in Sources */,
 				03B13E441E79F31C00D64F27 /* AppDelegate.swift in Sources */,
 				0309773A1EB92727000CF2FC /* SongCell.swift in Sources */,
 				032035DC1E9053CC00FD4BC8 /* NetLib.swift in Sources */,
+				03FF9D801ECBC71E003791B5 /* Global.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

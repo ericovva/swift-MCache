@@ -13,8 +13,8 @@ import CoreData
 //import MediaPlayer
 
 class SongCell: UITableViewCell {
-    var path = ""
-    var number : Int?
+    var path: String?
+    var view: UITableViewController?
     @IBOutlet weak var downloadButton: UIButton!
     @IBOutlet weak var trackName: UILabel!
     @IBOutlet weak var loadingLine: UIProgressView!
@@ -25,16 +25,14 @@ class SongCell: UITableViewCell {
     }
     
     @IBAction func play(_ sender: Any) {
-        
-        let name = self.trackName.text!
-        print("Play \(name) \(path)")
-        if (path.isEmpty) {
-            print("Path not found for track \(name). Downloading file...")
-            self.download_file(to_play: true)
-        } else {
-            NetLib.playSound(number: number!,name : name,path: path, cell: self)
-        }
-        
+        let st = Global.PLayer.playAVSound(trackName: self.trackName.text!, path: self.path!)
+        print("\(self.trackName.text!) state: \(st)")
+        //self.player?.play()
+        //playPauseButtonOutlet.setImage(UIImage(named: "pause.png"), for: UIControlState.normal)
+        //self.view?.present(Global.PLayer.AVPlayerVC, animated: true) {
+          //
+        //}
+        self.view?.tableView.reloadData()
     }
     
     func save_to_core_data(name: String, path: String) -> Bool{
@@ -66,6 +64,7 @@ class SongCell: UITableViewCell {
         _ = NetLib.get(root_path: "https://cloud-api.yandex.net:443/v1/disk/resources/download?path=/music/" + escapedString) { (my_data, error) -> Void in
             if (error == nil) {
                 if let href = my_data?["href"] {
+                    print("URL:: \(href)")
                     let destination: DownloadRequest.DownloadFileDestination = { _, _ in
                         let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
                         var escaped_name = escapedString
@@ -89,12 +88,13 @@ class SongCell: UITableViewCell {
                                 path: last_path_component
                             );
                             if (saved) {
-                                self.path = ur
-                                NetLib.cached[name] = self.path
+                                self.makePath(filename: last_path_component)
+                                Global.PlayList.updateItem(trackName: name, filename: last_path_component)
+                                //NetLib.cached[name] = self.path
                                 self.downloadButton.isHidden = true
                                 if (to_play) {
                                     print("Playing sound \(name)")
-                                    NetLib.playSound(number: self.number!, name: name,path: self.path, cell: self)
+                                    //NetLib.playSound(number: self.number!, name: name,path: self.path, cell: self)
                                 }
                             }
                         }
@@ -111,6 +111,31 @@ class SongCell: UITableViewCell {
             }
         }
 
+    }
+    public func makePath(filename : String) {
+        let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        let fileURL = documentsURL.appendingPathComponent(filename)
+        self.path = fileURL.absoluteString
+    }
+
+    public func changeState(state: String) {
+        if (state == "paly") {
+            self.playPauseButtonOutlet.setImage(UIImage(named: "pause.png"), for: UIControlState.normal)
+            self.trackName.textColor = UIColor(colorLiteralRed: 255, green: 0, blue: 0, alpha: 1)
+        } else {
+            self.playPauseButtonOutlet.setImage(UIImage(named: "play.png"), for: UIControlState.normal)
+            if (state == "stop") {
+                self.trackName.textColor = UIColor(colorLiteralRed: 255, green: 255, blue: 255, alpha: 1)
+            }
+        }
+    }
+    
+    public func changeDownload(fromData: Bool) {
+        if (fromData) {
+            self.downloadButton.isHidden = true
+        } else {
+            self.downloadButton.isHidden = false
+        }
     }
     
     override func awakeFromNib() {

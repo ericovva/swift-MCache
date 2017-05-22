@@ -13,7 +13,7 @@ import AVFoundation
 import AVKit
 
 class Menu : UITableViewController {
-
+    
 
     func check_files_in_cache() -> [NSManagedObject]{
         guard let appDelegate =
@@ -33,11 +33,12 @@ class Menu : UITableViewController {
     }
     
     func handleRefresh(_ refreshControl: UIRefreshControl) {
-        self.load_from_yandex()
-        refreshControl.endRefreshing()
+        //NetLib.PlayList.Tracks.removeAll()
+        self.load_from_yandex(refresh: refreshControl);
+        
     }
-    
-    func load_from_yandex() -> Void {
+
+    func load_from_yandex(refresh: UIRefreshControl?) -> Void {
         _ = NetLib.get(root_path: "https://cloud-api.yandex.net/v1/disk/resources?path=/music") {
             (my_data, error) -> Void in
             if (error == nil) {
@@ -47,17 +48,14 @@ class Menu : UITableViewController {
                 if let _embedded = my_data?["_embedded"] {
                     if let items = _embedded["items"] {
                         if let files = items {
+                            Global.PlayList.PlaylistItems = Global.PlayList.PlaylistItems.filter(){$0.fromData!}
                             for file in files as! Array<Dictionary<String,Any>> {
-                                
                                 let path = file["path"] as! String;
                                 let last_after_slash = NetLib.get_last_after_slash(s: path)
-                                if (NetLib.cached[last_after_slash] == nil) {
-                                    NetLib.cached[last_after_slash] = "";
-                                    NetLib.content.append(last_after_slash)
-                                }
+                                Global.PlayList.addNewItem(trackName: last_after_slash, filename: "", state: "stop", fromData: false)
                             }
-                            
                             DispatchQueue.main.async {
+                                refresh?.endRefreshing()
                                 self.tableView.reloadData()
                             }
                         }
@@ -68,11 +66,18 @@ class Menu : UITableViewController {
             }
         }
     }
-
+    
+    func loadList(){
+        //load data here
+        self.tableView.reloadData()
+    }
+    
+    var cells  : [Int: SongCell] = [:]
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         do {
-            try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback, with: .mixWithOthers)
+            try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
             print("AVAudioSession Category Playback OK")
             do {
                 try AVAudioSession.sharedInstance().setActive(true)
@@ -84,54 +89,47 @@ class Menu : UITableViewController {
         } catch {
             print(error)
         }
+        NotificationCenter.default.addObserver(self, selector: #selector(loadList), name: NSNotification.Name(rawValue: "load"), object: nil)
         self.refreshControl?.addTarget(self, action: #selector(self.handleRefresh(_:)), for: UIControlEvents.valueChanged)
         //From core data
         let songs = self.check_files_in_cache();
         for result in songs as [NSManagedObject] {
             let name = result.value(forKey: "name") as! String
-            let path = result.value(forKey: "path") as! String
-            let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-            let fileURL = documentsURL.appendingPathComponent(path)
-            NetLib.cached[name] = fileURL.absoluteString
-            NetLib.content.append(name)
+            let filename = result.value(forKey: "path") as! String
+            Global.PlayList.addNewItem(trackName: name, filename: filename, state: "stop", fromData: true)
         }
         self.tableView.reloadData()
-
+        
         //From yandex
-        self.load_from_yandex();
+        self.load_from_yandex(refresh: nil);
 
     }
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {
-        return NetLib.content.count
+        return Global.PlayList.size()
     }
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
     {
         let cell = self.tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! SongCell;
-        cell.trackName.text = NetLib.content[indexPath.row]
-        cell.path = NetLib.cached[NetLib.content[indexPath.row]]!;
-        cell.number = indexPath.row;
-        if (cell.path.characters.count > 0) {
-            cell.downloadButton.isHidden = true
-        } else {
-            cell.downloadButton.isHidden = false
-        }
+        Global.PlayList.setCell(cell: cell, row: indexPath.row)
+        cell.view = self
+        cell.downloadButton.isHidden = Global.PlayList.PlaylistItems[indexPath.row].fromData!
         cell.loadingLine.isHidden = true
-        if (cell.number == NetLib.play_info.number) {
-            if (NetLib.player?.isPlaying == true) {
+        if (Global.PLayer.play_info.number != nil && indexPath.row == Global.PLayer.play_info.number) {
+            if (Global.PLayer.play_info.paused!) {
+                cell.playPauseButtonOutlet.setImage(UIImage(named: "play.png"), for: UIControlState.normal)
+            } else {
                 cell.playPauseButtonOutlet.setImage(UIImage(named: "pause.png"), for: UIControlState.normal)
             }
-            cell.trackName.textColor = UIColor(colorLiteralRed: 255, green: 0, blue: 0, alpha: 1)
         } else {
             cell.playPauseButtonOutlet.setImage(UIImage(named: "play.png"), for: UIControlState.normal)
-            cell.trackName.textColor = UIColor(colorLiteralRed: 255, green: 255, blue: 255, alpha: 1)
         }
-        return cell
+            return cell
     }
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let cell = self.tableView.cellForRow(at: indexPath) as! SongCell
-        NetLib.playAVSound(number: indexPath.row, name: cell.trackName.text!, path: cell.path, cell: cell)
-        print("Play AV \(indexPath.row) \(cell.trackName.text!) \(cell.path)")
+        //let cell = self.tableView.cellForRow(at: indexPath) as! SongCell
+        //NetLib.playAVSound(number: indexPath.row, name: cell.trackName.text!, path: cell.path, cell: cell)
+        //print("Play AV \(indexPath.row) \(cell.trackName.text!) \(cell.path)")
         //self.present(NetLib.AVPlayerVC, animated: true) {
           //  NetLib.AVPlayerVC.player?.play()
         //}
