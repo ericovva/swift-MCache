@@ -62,6 +62,21 @@ class NetLib {
         let fileURL = documentsURL.appendingPathComponent(filename)
         return fileURL.absoluteString
     }
+    
+    class func makeTrackUrl(trackName: String, closure: @escaping ( String, String) -> String) {
+        let escapedString = trackName.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!
+        _ = NetLib.get(root_path: "https://cloud-api.yandex.net:443/v1/disk/resources/download?path=/music/\(escapedString)") { (my_data, error) -> Void in
+            if (error == nil) {
+                if let href = my_data?["href"] {
+                    print("URL:: \(href)")
+                    closure(trackName, href as! String)
+                    DispatchQueue.main.async {
+                        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "load"), object: nil)
+                    }
+                }
+            }
+        }
+    }
 }
 
 

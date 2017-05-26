@@ -25,14 +25,20 @@ class SongCell: UITableViewCell {
     }
     
     @IBAction func play(_ sender: Any) {
-        let st = Global.PLayer.playAVSound(trackName: self.trackName.text!, path: self.path!)
-        print("\(self.trackName.text!) state: \(st)")
+        if (!self.downloadButton.isHidden) {
+            NetLib.makeTrackUrl(trackName: self.trackName.text!, closure: Global.PLayer.playAVSound)
+        } else {
+            let st = Global.PLayer.playAVSound(trackName: self.trackName.text!, path: self.path!)
+            print("\(self.trackName.text!) state: \(st)")
+            self.view?.tableView.reloadData()
+        }
+
         //self.player?.play()
         //playPauseButtonOutlet.setImage(UIImage(named: "pause.png"), for: UIControlState.normal)
         //self.view?.present(Global.PLayer.AVPlayerVC, animated: true) {
           //
         //}
-        self.view?.tableView.reloadData()
+        
     }
     
     func save_to_core_data(name: String, path: String) -> Bool{
@@ -61,7 +67,7 @@ class SongCell: UITableViewCell {
         self.loadingLine.isHidden = false;
         self.loadingLine.setProgress(0, animated: false)
         let escapedString = name.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!
-        _ = NetLib.get(root_path: "https://cloud-api.yandex.net:443/v1/disk/resources/download?path=/music/" + escapedString) { (my_data, error) -> Void in
+        _ = NetLib.get(root_path: "https://cloud-api.yandex.net:443/v1/disk/resources/download?path=/music/\(escapedString)") { (my_data, error) -> Void in
             if (error == nil) {
                 if let href = my_data?["href"] {
                     print("URL:: \(href)")
@@ -88,7 +94,7 @@ class SongCell: UITableViewCell {
                                 path: last_path_component
                             );
                             if (saved) {
-                                self.makePath(filename: last_path_component)
+                                self.path = NetLib.makePath(filename: last_path_component)
                                 Global.PlayList.updateItem(trackName: name, filename: last_path_component)
                                 //NetLib.cached[name] = self.path
                                 self.downloadButton.isHidden = true
@@ -111,11 +117,6 @@ class SongCell: UITableViewCell {
             }
         }
 
-    }
-    public func makePath(filename : String) {
-        let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-        let fileURL = documentsURL.appendingPathComponent(filename)
-        self.path = fileURL.absoluteString
     }
 
     public func changeState(state: String) {

@@ -44,7 +44,7 @@ class Playlist {
     
     public func setCell(cell: SongCell, row: Int) {
         if (self.PlaylistItems.indices.contains(row)) {
-            cell.makePath(filename: self.PlaylistItems[row].filename!)
+            cell.path = NetLib.makePath(filename: self.PlaylistItems[row].filename!)
             cell.changeState(state: self.PlaylistItems[row].state!)
             cell.changeDownload(fromData: self.PlaylistItems[row].fromData!)
             cell.trackName.text = self.PlaylistItems[row].trackName!
