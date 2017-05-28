@@ -8,12 +8,16 @@
 
 import UIKit
 
-struct PlaylistItem {
+class PlaylistItem {
     var trackName: String?
     var state: String?
     var fromData: Bool?
     var filename: String?
+    var playing_url: String?
     //var cell: SongCell?
+    func updatePlayingUrl(url: String) {
+        self.playing_url = url
+    }
 }
 
 class Playlist {
@@ -22,7 +26,7 @@ class Playlist {
     public func addNewItem(trackName: String, filename: String, state: String, fromData: Bool) {
         let found = self.find_by_trackName(trackName: trackName)
         if (found >= 0) { return }
-        var item = PlaylistItem()
+        let item = PlaylistItem()
         item.filename = filename
         item.state = state
         item.fromData = fromData
@@ -31,11 +35,20 @@ class Playlist {
         //self.Tracks.insert(trackName)
     }
     
-    public func updateItem(trackName: String, filename: String) {
+    public func updateDownloadedItem(trackName: String, filename: String) {
         let n = self.find_by_trackName(trackName: trackName)
         if (n >= 0) {
             self.PlaylistItems[n].filename = filename
             self.PlaylistItems[n].fromData = true
+        } else {
+            print("Error: item with name \(trackName) not found")
+        }
+    }
+    
+    public func updatePlayingUrl(trackName: String, path: String) {
+        let n = self.find_by_trackName(trackName: trackName)
+        if (n >= 0) {
+            self.PlaylistItems[n].playing_url = path
         } else {
             print("Error: item with name \(trackName) not found")
         }

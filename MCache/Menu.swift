@@ -127,11 +127,6 @@ class Menu : UITableViewController {
             return cell
     }
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        //let cell = self.tableView.cellForRow(at: indexPath) as! SongCell
-        //NetLib.playAVSound(number: indexPath.row, name: cell.trackName.text!, path: cell.path, cell: cell)
-        //print("Play AV \(indexPath.row) \(cell.trackName.text!) \(cell.path)")
-        //self.present(NetLib.AVPlayerVC, animated: true) {
-          //  NetLib.AVPlayerVC.player?.play()
-        //}
+        //select
     }
 }

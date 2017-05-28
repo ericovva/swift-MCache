@@ -21,18 +21,13 @@ class SongCell: UITableViewCell {
     @IBOutlet weak var playPauseButtonOutlet: UIButton!
     
     @IBAction func download(_ sender: Any) {
-        download_file(to_play: false);
+        download_file();
     }
     
     @IBAction func play(_ sender: Any) {
-        if (!self.downloadButton.isHidden) {
-            NetLib.makeTrackUrl(trackName: self.trackName.text!, closure: Global.PLayer.playAVSound)
-        } else {
-            let st = Global.PLayer.playAVSound(trackName: self.trackName.text!, path: self.path!)
-            print("\(self.trackName.text!) state: \(st)")
-            self.view?.tableView.reloadData()
-        }
-
+        let st = Global.PLayer.playAVSound(trackName: self.trackName.text!)
+        print("\(self.trackName.text!) state: \(st)")
+        self.view?.tableView.reloadData()
         //self.player?.play()
         //playPauseButtonOutlet.setImage(UIImage(named: "pause.png"), for: UIControlState.normal)
         //self.view?.present(Global.PLayer.AVPlayerVC, animated: true) {
@@ -62,7 +57,7 @@ class SongCell: UITableViewCell {
         return false
     }
     
-    func download_file (to_play : Bool) {
+    func download_file () {
         let name = self.trackName.text!
         self.loadingLine.isHidden = false;
         self.loadingLine.setProgress(0, animated: false)
@@ -94,14 +89,8 @@ class SongCell: UITableViewCell {
                                 path: last_path_component
                             );
                             if (saved) {
-                                self.path = NetLib.makePath(filename: last_path_component)
-                                Global.PlayList.updateItem(trackName: name, filename: last_path_component)
-                                //NetLib.cached[name] = self.path
+                                Global.PlayList.updateDownloadedItem(trackName: name, filename: last_path_component)
                                 self.downloadButton.isHidden = true
-                                if (to_play) {
-                                    print("Playing sound \(name)")
-                                    //NetLib.playSound(number: self.number!, name: name,path: self.path, cell: self)
-                                }
                             }
                         }
                         self.loadingLine.isHidden = true
