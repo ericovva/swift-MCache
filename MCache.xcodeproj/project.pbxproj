@@ -23,6 +23,8 @@
 		03FF9D801ECBC71E003791B5 /* Global.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03FF9D7F1ECBC71E003791B5 /* Global.swift */; };
 		03FF9D821ECD2193003791B5 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 03FF9D811ECD2193003791B5 /* MediaPlayer.framework */; };
 		788082C94F038E1F146C3635 /* Pods_MCache.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3BC1C1713AE013CCABCC1B5 /* Pods_MCache.framework */; };
+		DE3A9C811EE59D17006EE38A /* Song+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE3A9C7F1EE59D17006EE38A /* Song+CoreDataClass.swift */; };
+		DE3A9C821EE59D17006EE38A /* Song+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE3A9C801EE59D17006EE38A /* Song+CoreDataProperties.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,6 +48,8 @@
 		08B20C9AE0BC0532FFEB3CE8 /* Pods-MCache.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MCache.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MCache/Pods-MCache.debug.xcconfig"; sourceTree = "<group>"; };
 		8FB52571495037982F63B76C /* Pods-MCache.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MCache.release.xcconfig"; path = "Pods/Target Support Files/Pods-MCache/Pods-MCache.release.xcconfig"; sourceTree = "<group>"; };
 		C3BC1C1713AE013CCABCC1B5 /* Pods_MCache.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MCache.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		DE3A9C7F1EE59D17006EE38A /* Song+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Song+CoreDataClass.swift"; sourceTree = "<group>"; };
+		DE3A9C801EE59D17006EE38A /* Song+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Song+CoreDataProperties.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,6 +101,8 @@
 				03B13E521E79F31C00D64F27 /* Info.plist */,
 				03B13E4A1E79F31C00D64F27 /* MCache.xcdatamodeld */,
 				03336AA91EC8B919005E89D1 /* Media.xcassets */,
+				DE3A9C7F1EE59D17006EE38A /* Song+CoreDataClass.swift */,
+				DE3A9C801EE59D17006EE38A /* Song+CoreDataProperties.swift */,
 			);
 			path = MCache;
 			sourceTree = "<group>";
@@ -252,10 +258,12 @@
 			files = (
 				03B13E4C1E79F31C00D64F27 /* MCache.xcdatamodeld in Sources */,
 				03B13E461E79F31C00D64F27 /* ViewController.swift in Sources */,
+				DE3A9C821EE59D17006EE38A /* Song+CoreDataProperties.swift in Sources */,
 				032035DA1E9037FE00FD4BC8 /* Menu.swift in Sources */,
 				03C21B5F1ECA61BC00A194B6 /* Playlist.swift in Sources */,
 				03FF9D7E1ECBC39B003791B5 /* Player.swift in Sources */,
 				03B13E441E79F31C00D64F27 /* AppDelegate.swift in Sources */,
+				DE3A9C811EE59D17006EE38A /* Song+CoreDataClass.swift in Sources */,
 				0309773A1EB92727000CF2FC /* SongCell.swift in Sources */,
 				032035DC1E9053CC00FD4BC8 /* NetLib.swift in Sources */,
 				03FF9D801ECBC71E003791B5 /* Global.swift in Sources */,
