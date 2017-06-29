@@ -33,9 +33,7 @@ class Menu : UITableViewController {
     }
     
     func handleRefresh(_ refreshControl: UIRefreshControl) {
-        //NetLib.PlayList.Tracks.removeAll()
         self.load_from_yandex(refresh: refreshControl);
-        
     }
 
     func load_from_yandex(refresh: UIRefreshControl?) -> Void {
@@ -44,26 +42,33 @@ class Menu : UITableViewController {
             if (error == nil) {
                 if let error = my_data?["error"] {
                     print("Error \(error)")
+                    DispatchQueue.main.async {
+                        self.performSegue(withIdentifier: "backToAuth", sender: nil)
+                        let defaults = UserDefaults.standard
+                        defaults.setValue(nil, forKey: "access_token")
+                    }
                 }
                 if let _embedded = my_data?["_embedded"] {
                     if let items = _embedded["items"] {
                         if let files = items {
-                            Global.PlayList.PlaylistItems = Global.PlayList.PlaylistItems.filter(){$0.fromData!}
+                            let tmpPlayList = Playlist(PlaylistItems: Global.PlayList.PlaylistItems.filter(){$0.fromData!})
                             for file in files as! Array<Dictionary<String,Any>> {
                                 let path = file["path"] as! String;
                                 let last_after_slash = NetLib.get_last_after_slash(s: path)
-                                Global.PlayList.addNewItem(trackName: last_after_slash, filename: "", state: "stop", fromData: false)
+                                tmpPlayList.addNewItem(trackName: last_after_slash, filename: "", state: "stop", fromData: false)
                             }
+                            print("Load from yandex succesfully")
                             DispatchQueue.main.async {
-                                refresh?.endRefreshing()
+                                Global.PlayList = tmpPlayList
                                 self.tableView.reloadData()
+                                refresh?.endRefreshing()
                             }
                         }
                     }
                 }
             } else {
                 print("Error \(my_data!)")
-            }
+            } 
         }
     }
     

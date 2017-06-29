@@ -23,6 +23,11 @@ class PlaylistItem {
 class Playlist {
     var PlaylistItems : [PlaylistItem] = []
     //var Tracks = Set<String>()
+    init() {}
+    init(PlaylistItems items: [PlaylistItem]) {
+        self.PlaylistItems = items
+    }
+
     public func addNewItem(trackName: String, filename: String, state: String, fromData: Bool) {
         let found = self.find_by_trackName(trackName: trackName)
         if (found >= 0) { return }
