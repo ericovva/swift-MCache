@@ -110,7 +110,7 @@ class SongCell: UITableViewCell {
 
     public func changeState(state: String) {
         if (state == "paly") {
-            self.playPauseButtonOutlet.setImage(UIImage(named: "pause.png"), for: UIControlState.normal)
+            self.playPauseButtonOutlet.setImage(UIImage(named: "pause2.png"), for: UIControlState.normal)
             self.trackName.textColor = UIColor(colorLiteralRed: 255, green: 0, blue: 0, alpha: 1)
         } else {
             self.playPauseButtonOutlet.setImage(UIImage(named: "play.png"), for: UIControlState.normal)

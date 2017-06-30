@@ -48,39 +48,35 @@
         <scene sceneID="xxH-nS-HiX">
             <objects>
                 <tableViewController id="yg2-WK-2CF" customClass="Menu" customModule="MCache" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="61" sectionHeaderHeight="28" sectionFooterHeight="28" id="A8U-sl-8ht">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="61" sectionHeaderHeight="28" sectionFooterHeight="28" id="A8U-sl-8ht">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" red="0.14202409982681274" green="0.17211431264877319" blue="0.37115868926048279" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <color key="sectionIndexBackgroundColor" red="0.068897905329999995" green="0.064574611209999994" blue="0.34574523140000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="sectionIndexBackgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell" rowHeight="61" id="TaU-IB-5f2" customClass="SongCell" customModule="MCache" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="375" height="61"/>
                                 <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="TaU-IB-5f2" id="Rwv-qs-p8S">
+                                <tableViewCellContentView key="contentView" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="TaU-IB-5f2" id="Rwv-qs-p8S">
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="61"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="leP-Mi-5Hn">
-                                            <rect key="frame" x="8" y="47" width="359" height="2"/>
-                                            <constraints>
-                                                <constraint firstAttribute="height" constant="2" id="LKO-Xt-EmQ"/>
-                                            </constraints>
-                                            <color key="progressTintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
-                                            <color key="trackTintColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                        </progressView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Track name" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8Gq-1D-v1B">
-                                            <rect key="frame" x="55" y="0.0" width="268" height="44"/>
+                                            <rect key="frame" x="65" y="0.0" width="258" height="44"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="44" id="tOx-aa-VSm"/>
+                                                <constraint firstAttribute="height" constant="44" id="ytE-w6-qoa"/>
+                                            </constraints>
                                             <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="14"/>
-                                            <color key="textColor" red="0.63641399876974447" green="1" blue="0.61184663710359943" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TTG-nf-oNu">
-                                            <rect key="frame" x="331" y="8" width="30" height="30"/>
+                                        <button opaque="NO" alpha="0.75" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TTG-nf-oNu">
+                                            <rect key="frame" x="326" y="8" width="45" height="45"/>
                                             <constraints>
-                                                <constraint firstAttribute="width" constant="30" id="CUe-bA-s0d"/>
+                                                <constraint firstAttribute="width" constant="45" id="7eb-Lh-O1H"/>
                                             </constraints>
-                                            <state key="normal" title="Download" image="download">
+                                            <state key="normal" title="Download" image="download-cloud-flat">
                                                 <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
                                             <connections>
@@ -88,10 +84,10 @@
                                             </connections>
                                         </button>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Yt-Tp-cll">
-                                            <rect key="frame" x="8" y="4" width="40" height="40"/>
+                                            <rect key="frame" x="8" y="8" width="45" height="45"/>
                                             <rect key="contentStretch" x="0.14999999999999999" y="0.0" width="1" height="1"/>
                                             <constraints>
-                                                <constraint firstAttribute="width" constant="40" id="Qn8-33-LZQ"/>
+                                                <constraint firstAttribute="width" constant="45" id="Pfq-ma-lTE"/>
                                             </constraints>
                                             <state key="normal" title="Play" image="play">
                                                 <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
@@ -100,24 +96,32 @@
                                                 <action selector="play:" destination="TaU-IB-5f2" eventType="touchUpInside" id="Du7-gx-fzc"/>
                                             </connections>
                                         </button>
+                                        <progressView opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progressViewStyle="bar" progress="0.40000000000000002" translatesAutoresizingMaskIntoConstraints="NO" id="leP-Mi-5Hn">
+                                            <rect key="frame" x="65" y="47" width="253" height="2.5"/>
+                                            <color key="progressTintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                            <color key="trackTintColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                        </progressView>
                                     </subviews>
-                                    <color key="backgroundColor" red="0.06889790533254081" green="0.0645746112108357" blue="0.34574523136113988" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <constraints>
-                                        <constraint firstItem="0Yt-Tp-cll" firstAttribute="leading" secondItem="Rwv-qs-p8S" secondAttribute="leadingMargin" id="0fh-lf-lYp"/>
-                                        <constraint firstAttribute="trailingMargin" secondItem="TTG-nf-oNu" secondAttribute="trailing" constant="6" id="ACC-Gt-C0F"/>
-                                        <constraint firstItem="TTG-nf-oNu" firstAttribute="top" secondItem="Rwv-qs-p8S" secondAttribute="topMargin" id="IIt-0R-Fyb"/>
-                                        <constraint firstItem="8Gq-1D-v1B" firstAttribute="top" secondItem="Rwv-qs-p8S" secondAttribute="top" id="KHL-Ij-pU8"/>
-                                        <constraint firstItem="0Yt-Tp-cll" firstAttribute="bottom" secondItem="8Gq-1D-v1B" secondAttribute="bottom" id="Lhk-iJ-ex3"/>
-                                        <constraint firstItem="leP-Mi-5Hn" firstAttribute="top" secondItem="0Yt-Tp-cll" secondAttribute="bottom" constant="3" id="OJS-uF-GhL"/>
-                                        <constraint firstItem="8Gq-1D-v1B" firstAttribute="leading" secondItem="0Yt-Tp-cll" secondAttribute="trailing" constant="7" id="bgC-qf-p27"/>
-                                        <constraint firstAttribute="bottomMargin" secondItem="leP-Mi-5Hn" secondAttribute="bottom" constant="3.5" id="hrm-pv-C0z"/>
-                                        <constraint firstItem="0Yt-Tp-cll" firstAttribute="leading" secondItem="leP-Mi-5Hn" secondAttribute="leading" id="iBi-od-PcL"/>
-                                        <constraint firstItem="leP-Mi-5Hn" firstAttribute="top" secondItem="TTG-nf-oNu" secondAttribute="bottom" constant="9" id="lvu-Wq-SXy"/>
-                                        <constraint firstItem="leP-Mi-5Hn" firstAttribute="trailing" secondItem="Rwv-qs-p8S" secondAttribute="trailingMargin" id="s5b-9t-Pp0"/>
-                                        <constraint firstItem="0Yt-Tp-cll" firstAttribute="top" secondItem="Rwv-qs-p8S" secondAttribute="topMargin" constant="-4" id="t5E-Mg-EXr"/>
-                                        <constraint firstItem="TTG-nf-oNu" firstAttribute="leading" secondItem="8Gq-1D-v1B" secondAttribute="trailing" constant="8" symbolic="YES" id="v8g-tf-XdV"/>
+                                        <constraint firstItem="0Yt-Tp-cll" firstAttribute="top" secondItem="Rwv-qs-p8S" secondAttribute="topMargin" id="2BW-4p-I7d"/>
+                                        <constraint firstAttribute="bottomMargin" secondItem="leP-Mi-5Hn" secondAttribute="bottom" constant="4" id="8Ac-Zo-bgh"/>
+                                        <constraint firstItem="leP-Mi-5Hn" firstAttribute="leading" secondItem="0Yt-Tp-cll" secondAttribute="trailing" constant="12" id="I5T-TB-40o"/>
+                                        <constraint firstItem="8Gq-1D-v1B" firstAttribute="leading" secondItem="0Yt-Tp-cll" secondAttribute="trailing" constant="12" id="RlB-rq-ooa"/>
+                                        <constraint firstAttribute="trailing" secondItem="TTG-nf-oNu" secondAttribute="trailing" constant="4" id="UHQ-Gd-jAB"/>
+                                        <constraint firstItem="TTG-nf-oNu" firstAttribute="leading" secondItem="leP-Mi-5Hn" secondAttribute="trailing" constant="8" id="VXg-Vo-64A"/>
+                                        <constraint firstItem="TTG-nf-oNu" firstAttribute="leading" secondItem="8Gq-1D-v1B" secondAttribute="trailing" constant="3" id="bla-B7-sgE"/>
+                                        <constraint firstAttribute="bottom" secondItem="TTG-nf-oNu" secondAttribute="bottom" constant="8" id="fX2-Rl-Vfo"/>
+                                        <constraint firstItem="8Gq-1D-v1B" firstAttribute="top" secondItem="Rwv-qs-p8S" secondAttribute="top" id="gR9-b4-V9d"/>
+                                        <constraint firstItem="0Yt-Tp-cll" firstAttribute="leading" secondItem="Rwv-qs-p8S" secondAttribute="leadingMargin" id="kTb-iE-ZQE"/>
+                                        <constraint firstItem="TTG-nf-oNu" firstAttribute="top" secondItem="Rwv-qs-p8S" secondAttribute="top" constant="8" id="qXq-Jn-7zq"/>
+                                        <constraint firstItem="0Yt-Tp-cll" firstAttribute="bottom" secondItem="Rwv-qs-p8S" secondAttribute="bottomMargin" id="urS-7B-X5L"/>
+                                        <constraint firstItem="leP-Mi-5Hn" firstAttribute="top" secondItem="8Gq-1D-v1B" secondAttribute="bottom" constant="3" id="xN5-cG-dvS"/>
+                                        <constraint firstItem="8Gq-1D-v1B" firstAttribute="top" secondItem="Rwv-qs-p8S" secondAttribute="top" id="xpV-Ro-BGe"/>
                                     </constraints>
                                 </tableViewCellContentView>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <connections>
                                     <outlet property="downloadButton" destination="TTG-nf-oNu" id="xNK-O3-MSR"/>
                                     <outlet property="loadingLine" destination="leP-Mi-5Hn" id="8XA-fG-6tE"/>
@@ -148,9 +152,14 @@
         <scene sceneID="L4Q-At-tuh">
             <objects>
                 <navigationController id="r2m-vV-CP3" sceneMemberID="viewController">
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="dOK-NN-ddN">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="dOK-NN-ddN">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="barTintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <textAttributes key="titleTextAttributes">
+                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <color key="textShadowColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        </textAttributes>
                     </navigationBar>
                     <connections>
                         <segue destination="yg2-WK-2CF" kind="relationship" relationship="rootViewController" id="IkN-wm-oIF"/>
@@ -162,7 +171,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="download" width="875" height="875"/>
+        <image name="download-cloud-flat" width="256" height="256"/>
         <image name="play" width="236" height="232"/>
     </resources>
 </document>

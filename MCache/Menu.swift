@@ -43,9 +43,9 @@ class Menu : UITableViewController {
                 if let error = my_data?["error"] {
                     print("Error \(error)")
                     DispatchQueue.main.async {
-                        self.performSegue(withIdentifier: "backToAuth", sender: nil)
                         let defaults = UserDefaults.standard
                         defaults.setValue(nil, forKey: "access_token")
+                        self.performSegue(withIdentifier: "backToAuth", sender: nil)
                     }
                 }
                 if let _embedded = my_data?["_embedded"] {
@@ -124,7 +124,7 @@ class Menu : UITableViewController {
             if (Global.PLayer.play_info.paused!) {
                 cell.playPauseButtonOutlet.setImage(UIImage(named: "play.png"), for: UIControlState.normal)
             } else {
-                cell.playPauseButtonOutlet.setImage(UIImage(named: "pause.png"), for: UIControlState.normal)
+                cell.playPauseButtonOutlet.setImage(UIImage(named: "pause2.png"), for: UIControlState.normal)
             }
         } else {
             cell.playPauseButtonOutlet.setImage(UIImage(named: "play.png"), for: UIControlState.normal)
