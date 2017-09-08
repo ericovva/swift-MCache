@@ -24,6 +24,7 @@ class Player : NSObject {
     var AvPlayer: AVPlayer?
     var play_info = PlayInfo(number: nil, trackName: nil, path: nil, paused: false)
     let commandCenter = MPRemoteCommandCenter.shared()
+    
     @objc private func next() -> MPRemoteCommandHandlerStatus {
         var n = self.play_info.number! + 1;
         if (self.play_info.number == Global.PlayList.size() - 1) {
@@ -45,6 +46,29 @@ class Player : NSObject {
         print("Previous song \(Global.PlayList.PlaylistItems[n].trackName!)")
         return .success
     }
+    
+    @objc private func toggle() -> MPRemoteCommandHandlerStatus {
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "load"), object: nil)
+        print("Toggle ")
+        return .success
+    }
+    
+    @objc private func play() -> MPRemoteCommandHandlerStatus {
+        self.AVPlayerVC.player?.play()
+        self.play_info.paused = false
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "load"), object: nil)
+        print("Play")
+        return .success
+    }
+    
+    @objc private func pause() -> MPRemoteCommandHandlerStatus {
+        self.AVPlayerVC.player?.pause()
+        self.play_info.paused = true
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "load"), object: nil)
+        print("Pause")
+        return .success
+    }
+
     
     @objc private func playerDidFinishPlaying(note: NSNotification) {
         var n = self.play_info.number! + 1;
@@ -89,6 +113,10 @@ class Player : NSObject {
             commandCenter.nextTrackCommand.addTarget(self, action:#selector(self.next))
             commandCenter.previousTrackCommand.isEnabled = true
             commandCenter.previousTrackCommand.addTarget(self, action:#selector(self.previous))
+            commandCenter.pauseCommand.isEnabled = true
+            commandCenter.pauseCommand.addTarget(self, action:#selector(self.pause))
+            commandCenter.playCommand.isEnabled = true
+            commandCenter.playCommand.addTarget(self, action:#selector(self.play))
         }
         
         if (self.AVPlayerVC.player != nil && self.play_info.trackName == trackName) {
