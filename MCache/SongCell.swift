@@ -59,9 +59,25 @@ class SongCell: UITableViewCell {
     
     func download_file () {
         let name = self.trackName.text!
-        self.loadingLine.isHidden = false;
-        self.loadingLine.setProgress(0, animated: false)
-        let escapedString = name.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!
+        let n = Global.PlayList.find_by_trackName(trackName: name)
+        if (n >= 0) {
+            Global.PlayList.PlaylistItems[n].downloading = true
+            Global.PlayList.PlaylistItems[n].download_progress = 0;
+            Global.reload_tableview_in_main_queue()
+        } else {
+            print("Cant find playlistitem with name \(name)")
+            return
+        }
+
+        let _escapedString = name.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!
+        var escapedString = ""
+        for c in _escapedString.characters {
+            if c == "&" {
+                escapedString.append("%26")
+                continue
+            }
+            escapedString.append(c)
+        }
         _ = NetLib.get(root_path: "https://cloud-api.yandex.net:443/v1/disk/resources/download?path=/music/\(escapedString)") { (my_data, error) -> Void in
             if (error == nil) {
                 if let href = my_data?["href"] {
@@ -90,19 +106,31 @@ class SongCell: UITableViewCell {
                             );
                             if (saved) {
                                 Global.PlayList.updateDownloadedItem(trackName: name, filename: last_path_component)
-                                self.downloadButton.isHidden = true
                             }
+                            Global.PlayList.PlaylistItems[n].downloading = false
                         }
-                        self.loadingLine.isHidden = true
                     }
                     .downloadProgress { progress in
-                        self.loadingLine.setProgress(Float(progress.fractionCompleted), animated: true)
+                        Global.PlayList.PlaylistItems[n].download_progress = Float(progress.fractionCompleted)
+                        if (true) {
+                            Global.reload_tableview_in_main_queue()
+                        }
                     }
                 } else {
                     print("Error no href")
+                    DispatchQueue.main.async {
+                        let alert = UIAlertController(title: "Ошибка", message: "Не удалось сформировать ссылку", preferredStyle: UIAlertControllerStyle.alert)
+                        alert.addAction(UIAlertAction(title: "Жаль", style: UIAlertActionStyle.default, handler: nil))
+                        self.view?.present(alert, animated: true, completion: nil)
+                    }
+
+                    Global.PlayList.PlaylistItems[n].downloading = false
+                    Global.reload_tableview_in_main_queue()
                 }
             } else {
                 print("Error")
+                Global.PlayList.PlaylistItems[n].downloading = false
+                Global.reload_tableview_in_main_queue()
             }
         }
 

@@ -10,6 +10,8 @@ import UIKit
 
 class PlaylistItem {
     var trackName: String?
+    var downloading = false
+    var download_progress: Float?
     var state: String?
     var fromData: Bool?
     var filename: String?
@@ -45,6 +47,8 @@ class Playlist {
         if (n >= 0) {
             self.PlaylistItems[n].filename = filename
             self.PlaylistItems[n].fromData = true
+            self.PlaylistItems[n].downloading = false
+            Global.reload_tableview_in_main_queue()
         } else {
             print("Error: item with name \(trackName) not found")
         }

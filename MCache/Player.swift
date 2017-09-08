@@ -164,6 +164,4 @@ class Player : NSObject {
         //self.play_info.cell = cell
         //cell.trackName.textColor = UIColor(colorLiteralRed: 255, green: 0, blue: 0, alpha: 1)
     }
-    
-
 }

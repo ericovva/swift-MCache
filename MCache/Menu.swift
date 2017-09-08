@@ -14,6 +14,9 @@ import AVKit
 
 class Menu : UITableViewController {
     
+    @IBAction func right_item_action(_ sender: Any) {
+        Global.reload_tableview_in_main_queue()
+    }
 
     func check_files_in_cache() -> [NSManagedObject]{
         guard let appDelegate =
@@ -37,7 +40,7 @@ class Menu : UITableViewController {
     }
 
     func load_from_yandex(refresh: UIRefreshControl?) -> Void {
-        _ = NetLib.get(root_path: "https://cloud-api.yandex.net/v1/disk/resources?path=/music") {
+        _ = NetLib.get(root_path: "https://cloud-api.yandex.net/v1/disk/resources?limit=10000&path=/music") {
             (my_data, error) -> Void in
             if (error == nil) {
                 if let error = my_data?["error"] {
@@ -52,12 +55,14 @@ class Menu : UITableViewController {
                     if let items = _embedded["items"] {
                         if let files = items {
                             let tmpPlayList = Playlist(PlaylistItems: Global.PlayList.PlaylistItems.filter(){$0.fromData!})
+                            var count = 0;
                             for file in files as! Array<Dictionary<String,Any>> {
                                 let path = file["path"] as! String;
                                 let last_after_slash = NetLib.get_last_after_slash(s: path)
                                 tmpPlayList.addNewItem(trackName: last_after_slash, filename: "", state: "stop", fromData: false)
+                                count+=1
                             }
-                            print("Load from yandex succesfully")
+                            print("Load from yandex succesfully. Count: \(count)")
                             DispatchQueue.main.async {
                                 Global.PlayList = tmpPlayList
                                 self.tableView.reloadData()
@@ -115,11 +120,16 @@ class Menu : UITableViewController {
     }
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
     {
+        print(indexPath.row)
         let cell = self.tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! SongCell;
         Global.PlayList.setCell(cell: cell, row: indexPath.row)
         cell.view = self
-        cell.downloadButton.isHidden = Global.PlayList.PlaylistItems[indexPath.row].fromData!
-        cell.loadingLine.isHidden = true
+        cell.downloadButton.isHidden = Global.PlayList.PlaylistItems[indexPath.row].downloading || Global.PlayList.PlaylistItems[indexPath.row].fromData!
+        
+        cell.loadingLine.isHidden = !Global.PlayList.PlaylistItems[indexPath.row].downloading
+        if (Global.PlayList.PlaylistItems[indexPath.row].downloading) {
+            cell.loadingLine.setProgress(Global.PlayList.PlaylistItems[indexPath.row].download_progress!, animated: true)
+        }
         if (Global.PLayer.play_info.number != nil && indexPath.row == Global.PLayer.play_info.number) {
             if (Global.PLayer.play_info.paused!) {
                 cell.playPauseButtonOutlet.setImage(UIImage(named: "play.png"), for: UIControlState.normal)
