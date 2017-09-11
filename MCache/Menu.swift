@@ -15,7 +15,14 @@ import AVKit
 class Menu : UITableViewController {
     
     @IBAction func right_item_action(_ sender: Any) {
-        Global.reload_tableview_in_main_queue()
+        let items = Global.PlayList.PlaylistItems
+        let time = Int(Date().timeIntervalSince1970)
+        print("========== Begin \(time) ===========")
+        for item in items {
+            if (!item.downloading && !item.fromData!) {
+                NetLib.download_file(name: item.trackName!)
+            }
+        }
     }
 
     func check_files_in_cache() -> [NSManagedObject]{
@@ -120,7 +127,6 @@ class Menu : UITableViewController {
     }
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
     {
-        print(indexPath.row)
         let cell = self.tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! SongCell;
         Global.PlayList.setCell(cell: cell, row: indexPath.row)
         cell.view = self
